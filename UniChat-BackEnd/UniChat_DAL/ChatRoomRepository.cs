@@ -2,6 +2,7 @@ using UniChat_BLL.Dto;
 using UniChat_BLL.Interfaces;
 using UniChat_DAL.Data;
 using UniChat_DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace UniChat_DAL;
 
@@ -122,6 +123,32 @@ public class ChatRoomRepository : IChatRoomRepository
         _context.SaveChanges();
 
         return true;
+    }
+
+    public List<UserDto> GetChatRoomMembers(int chatRoomId)
+    {
+    var chatRoom = _context.ChatRooms
+        .Include(c => c.UserChatrooms)
+            .ThenInclude(uc => uc.User)
+        .FirstOrDefault(c => c.Id == chatRoomId);
+
+    if (chatRoom == null)
+    {
+        throw new Exception("Chat room not found");
+    }
+
+    // Map UserEntity to UserDto
+    var members = chatRoom.UserChatrooms
+        .Select(uc => new UserDto
+        {
+            Id = uc.User.Id,
+            Username = uc.User.Username, 
+            Email = uc.User.Email,
+            ProfilePicture = uc.User.ProfilePicture,
+        })
+        .ToList();
+
+    return members;
     }
 }
 

@@ -46,6 +46,11 @@ namespace UniChat_BLL
       {
         return _chatRoomRepository.RemoveUserFromChatRoom(chatRoomId, userId);
       }
+
+      public List<UserDto> GetChatRoomMembers(int chatRoomId)
+        {
+            return _chatRoomRepository.GetChatRoomMembers(chatRoomId);
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 using UniChat_BLL.Dto;
+using System.Collections.Generic;
 
 namespace UniChat_BLL.Interfaces
 {
@@ -11,5 +12,7 @@ namespace UniChat_BLL.Interfaces
         bool DeleteChatRoom(int id);
         bool AddUserToChatRoom(int chatRoomId, int userId);
         bool RemoveUserFromChatRoom(int chatRoomId, int userId);
+
+         List<UserDto> GetChatRoomMembers(int chatRoomId);
     }
 }

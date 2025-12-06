@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using UniChat_BLL;
 using UniChat_BLL.Dto;
 using UniChat_BLL.Interfaces;
+using System.Collections.Generic;
 
 namespace UniChat_BackEnd.Controllers
 {
@@ -88,6 +89,20 @@ namespace UniChat_BackEnd.Controllers
                 return NotFound();
             }
             return NoContent();
+        }
+
+        [HttpGet("{id}/members")]
+        public IActionResult GetChatRoomMembers(int id)
+        {
+            try
+            {
+                List<UserDto> members = _chatRoomService.GetChatRoomMembers(id);
+                return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }
